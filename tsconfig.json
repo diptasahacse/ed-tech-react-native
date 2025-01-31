@@ -2,5 +2,6 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "exclude": ["app/**/*.d.ts", "src/types/**/*.d.ts"]
 }
