@@ -25,7 +25,7 @@ const ForgotPassword = () => {
             className=" h-[35px] w-[115px]"
             resizeMode="contain"
           />
-          <Text className=" text-2xl text-white mt-10 font-psemibold ">
+          <Text className=" text-2xl text-white mt-10 font-semibold ">
             Reset Account
           </Text>
           <View className=" mt-5">

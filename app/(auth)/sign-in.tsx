@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import images from "../../constants/images";
 import CustomButton from "../../components/CustomButton";
-import { Link, router } from "expo-router";
+import { Link, Redirect, router } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import FormField from "../../components/FormField";
 const SignIn = () => {
@@ -14,6 +14,7 @@ const SignIn = () => {
   const [submitting, setSubmitting] = useState(false);
   const submit = () => {
     setSubmitting(true);
+    router.push("/courses");
   };
   return (
     <SafeAreaView className="bg-primary h-full">

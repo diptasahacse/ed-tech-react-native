@@ -3,7 +3,7 @@ import React from "react";
 interface ITabIconProps {
   icon: ImageProps;
   color: ColorValue;
-  name: string;
+  name?: string;
   focused: boolean;
 }
 const TabIcon = ({ icon, color, name, focused }: ITabIconProps) => {
@@ -15,12 +15,14 @@ const TabIcon = ({ icon, color, name, focused }: ITabIconProps) => {
         source={icon}
         tintColor={color}
       />
-      <Text
-        className={`${focused ? " font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
-      >
-        {name}
-      </Text>
+      {name && (
+        <Text
+          className={`${focused ? " font-psemibold" : "font-pregular"} text-xs`}
+          style={{ color: color }}
+        >
+          {name}
+        </Text>
+      )}
     </View>
   );
 };
