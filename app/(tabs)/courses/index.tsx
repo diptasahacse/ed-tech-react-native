@@ -9,12 +9,23 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import { ICategoryCollection } from "../../../src/types/categoryCollection";
+import { CategoryCollectionModel } from "../../../src/models/categoryCollectionModel";
 
 const Courses = () => {
   const [loading, setLoading] = useState(true); // To show loading spinner
-  const [categories, setCategories] = useState<any>(); // To store the API data
+  const [categoryCollection, setCategoryCollection] = useState<
+    ICategoryCollection | undefined
+  >(undefined); // To store the API data
   const [error, setError] = useState(null); // To store any error if occurs
-  const courseCategories = categories?.data?.course_categories;
+
+  // console.log(categoryCollection)
+  const courseCategories = categoryCollection
+    ? new CategoryCollectionModel(categoryCollection)
+        .getData()
+        .getCourseCategories()
+        .getData()
+    : undefined;
   // Fetch data when the component mounts
   useEffect(() => {
     fetchCourseCategories();
@@ -24,12 +35,11 @@ const Courses = () => {
   const fetchCourseCategories = async () => {
     try {
       const response = await fetch(
-        `${process.env.EXPO_PUBLIC_API_URL}/api/course-categories?all=truer`
+        `${process.env.EXPO_PUBLIC_API_URL}/api/course-categories`
       ); // Replace with actual app_url
       const data = await response.json();
-
       if (response.ok) {
-        setCategories(data); // Store the response data in state
+        setCategoryCollection(data); // Store the response data in state
       } else {
         throw new Error("Failed to fetch categories");
       }
@@ -58,20 +68,23 @@ const Courses = () => {
     );
   }
 
-  console.log(courseCategories);
   if (courseCategories) {
     return (
       <View style={styles.container}>
         <Text>All Courses</Text>
         <FlatList
           data={courseCategories}
-          keyExtractor={(item) => item.id} // Make sure the data has an 'id' field
+          keyExtractor={(item) => item.getId().toString()} // Make sure the data has an 'id' field
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={()=>{
-                Alert.alert(`This category has ${item.course.length} courses`);
-            }}>
+            <TouchableOpacity
+              onPress={() => {
+                Alert.alert(
+                  `This category has ${item.getCourse().length} courses`
+                );
+              }}
+            >
               <View style={styles.item}>
-                <Text style={styles.itemText}>{item.category_name}</Text>
+                <Text style={styles.itemText}>{item.getCategoryName()}</Text>
                 {/* Adjust based on the actual response */}
               </View>
             </TouchableOpacity>
